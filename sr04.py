@@ -1,8 +1,25 @@
+# Ultrasonic sensor
 import RPi.GPIO as GPIO
 import time
- 
+# Graphql
+import requests
+
+# Pins used
 TRIG = 4
 ECHO = 18
+
+# Function to make a post to graphql 
+def make_query(query, url, headers):
+    """
+    Make query response
+    """
+    request = requests.post(url, json={'query': query}, headers=headers)
+    if request.status_code == 200:
+        return request.json()
+    else:
+        raise Exception("Query failed to run by returning code of {}. {}".format(request.status_code, query))
+
+### Main Code ###
 
 while True:
 	try:
