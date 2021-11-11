@@ -19,10 +19,19 @@ def make_query(query, url, headers):
     else:
         raise Exception("Query failed to run by returning code of {}. {}".format(request.status_code, query))
 
+#Variables
+nameVarSensor4 = "Ultrasonic sensor"
+valueVarSensor4 = 0                     #The value readed by the sensor4
+
+# Token for user raspberryAdmin_1
+headers = {"Authorization": "JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InJhc3BiZXJyeUFkbWluXzEiLCJleHAiOjE2MzY2MDcwNTksIm9yaWdJYXQiOjE2MzY2MDY3NTl9.kMkxKtWiBBKUEpBjoSG8bXS9q_URxR8GjsQCEY8_UV4"}
+url = 'http://34.125.7.41:8090/graphql/'
+
 ### Main Code ###
 
 while True:
 	try:
+		# Pin configuration and communication start
 		GPIO.setmode(GPIO.BCM)
 		GPIO.setup(TRIG,GPIO.OUT)
 		GPIO.setup(ECHO,GPIO.IN)
@@ -30,6 +39,7 @@ while True:
 		time.sleep(0.00001)
 		GPIO.output(TRIG, False)
 		 
+		# Signal time measured
 		while GPIO.input(ECHO) == False:
 			start = time.time()
 		 
@@ -38,13 +48,25 @@ while True:
 		 
 		sig_time = end-start
 		 
-		#CM:
+		# CM:
 		distance = sig_time / 0.000058
-		#inches:
+		# inches:
 		#distance = sig_time / 0.000148
-		 
+		
 		print('Distance: {} centimeters'.format(distance))
 		GPIO.cleanup()
+		
+		# Mutation
+		valueVarSensor4 = distance
+		query = 'mutation{updateComponent(name:' + f'"{nameVarSensor4}", value: "{valueVarSensor4}")' + '{component{id name value unit } }}'
+		resultDistance = make_query(query, url, headers)
+		
+		distanceData = resultDistance['data']['updateComponent']['component']
+		print(distanceData)
+		 
+		
+		print()
+		
 		 
 		
 	except RuntimeError as error:
