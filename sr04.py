@@ -76,7 +76,7 @@ while True:
 		# inches:
 		#distance = sig_time / 0.000148
 		
-		print('Distance: {} centimeters'.format(distance))
+		#print('Distance: {} centimeters'.format(distance))
 		GPIO.cleanup()
 		
 		# Mutation
@@ -84,9 +84,9 @@ while True:
 		query = 'mutation{updateComponent(name:' + f'"{nameVarSensor4}", value: "{valueVarSensor4}")' + '{component{id name value unit } }}'
 		resultDistance = make_query(query, url, headers)
 		
-		distanceData = resultDistance['data']['updateComponent']['component']
+		'''distanceData = resultDistance['data']['updateComponent']['component']
 		print(distanceData)
-		print()
+		print()'''
 		
 	except RuntimeError as error:
 		print(error.args[0])
@@ -96,5 +96,6 @@ while True:
 	except Exception as error:
 		time.sleep(2.0)
 		raise error
-		
+	
+	# Try to make a post every 5 seconds
 	time.sleep(5.0)
