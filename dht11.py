@@ -18,7 +18,36 @@ def make_query(query, url, headers):
         return request.json()
     else:
         raise Exception("Query failed to run by returning code of {}. {}".format(request.status_code, query))
+      
+# Body structure for a post request
+queryStructure = '''
+mutation{
+  updateComponent(name: "DHT11-temperature", value: "0"){
+    component{
+      id
+  		name
+      value
+      unit
+    }
+  }
+}
+'''
+#Variables
+nameVarSensor1 = "DHT11-temperature"
+valueVarSensor1 = 0                     #The value readed by the sensor1
 
+# Token for user raspberryAdmin_1
+headers = {"Authorization": "JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InJhc3BiZXJyeUFkbWluXzEiLCJleHAiOjE2MzY2MDcwNTksIm9yaWdJYXQiOjE2MzY2MDY3NTl9.kMkxKtWiBBKUEpBjoSG8bXS9q_URxR8GjsQCEY8_UV4"}
+url = 'http://34.125.7.41:8090/graphql/'
+
+query = 'mutation{updateComponent(name:' + f'"{nameVarSensor1}", value: "{valueVarSensor1}")' + '{component{id name value unit } }}'
+
+result = make_query(query, url, headers)
+print(result)
+
+
+### Main code ###
+'''
 while True:
     try:
         # Print the values to the serial port
@@ -42,3 +71,4 @@ while True:
         raise error
 
     time.sleep(2.0)
+'''
