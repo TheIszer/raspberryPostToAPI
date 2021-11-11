@@ -1,3 +1,25 @@
+'''
+    Authors: Kaleb Antonio, Fernando Lopez, Alejandra Oliva, Asiel Trejo
+    Emails: A01732213, A07144620,  A01731592, A01731489   @tec.mx
+    Description:  Code written in python that reads the distances in a 
+				  ultrasonic sensor and publishes it in an API. Use the GPIO 
+                  library to get the measurements and graphql for the API. 
+'''
+
+# Body structure for a post request
+# Temperature mutation
+'''
+mutation{
+  updateComponent(name: "Ultrasonic sensor", value: "0"){
+    component{
+      id
+      name
+      value
+      unit
+    }
+  }
+}
+'''
 # Ultrasonic sensor
 import RPi.GPIO as GPIO
 import time
@@ -26,6 +48,7 @@ valueVarSensor4 = 0                     #The value readed by the sensor4
 # Token for user raspberryAdmin_1
 headers = {"Authorization": "JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InJhc3BiZXJyeUFkbWluXzEiLCJleHAiOjE2MzY2MDcwNTksIm9yaWdJYXQiOjE2MzY2MDY3NTl9.kMkxKtWiBBKUEpBjoSG8bXS9q_URxR8GjsQCEY8_UV4"}
 url = 'http://34.125.7.41:8090/graphql/'
+
 
 ### Main Code ###
 
@@ -63,11 +86,7 @@ while True:
 		
 		distanceData = resultDistance['data']['updateComponent']['component']
 		print(distanceData)
-		 
-		
 		print()
-		
-		 
 		
 	except RuntimeError as error:
 		print(error.args[0])
