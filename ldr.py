@@ -21,6 +21,14 @@ def make_query(query, url, headers):
     else:
         raise Exception("Query failed to run by returning code of {}. {}".format(request.status_code, query))
 
+#Variables
+nameVarSensor3 = "LDR"
+valueVarSensor3 = 0                     #The value readed by the sensor3, 0 meas OFF and 1 ON
+
+# Token for user raspberryAdmin_1
+headers = {"Authorization": "JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InJhc3BiZXJyeUFkbWluXzEiLCJleHAiOjE2MzY2MDcwNTksIm9yaWdJYXQiOjE2MzY2MDY3NTl9.kMkxKtWiBBKUEpBjoSG8bXS9q_URxR8GjsQCEY8_UV4"}
+url = 'http://34.125.7.41:8090/graphql/'
+
 while True:
     if GPIO.input(LIGHT_PIN):
       print ('NO HAY LUZ')
