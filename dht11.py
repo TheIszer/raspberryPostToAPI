@@ -25,7 +25,7 @@ mutation{
   updateComponent(name: "DHT11-temperature", value: "0"){
     component{
       id
-  		name
+      name
       value
       unit
     }
@@ -40,14 +40,9 @@ valueVarSensor1 = 0                     #The value readed by the sensor1
 headers = {"Authorization": "JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InJhc3BiZXJyeUFkbWluXzEiLCJleHAiOjE2MzY2MDcwNTksIm9yaWdJYXQiOjE2MzY2MDY3NTl9.kMkxKtWiBBKUEpBjoSG8bXS9q_URxR8GjsQCEY8_UV4"}
 url = 'http://34.125.7.41:8090/graphql/'
 
-query = 'mutation{updateComponent(name:' + f'"{nameVarSensor1}", value: "{valueVarSensor1}")' + '{component{id name value unit } }}'
-
-result = make_query(query, url, headers)
-print(result)
-
 
 ### Main code ###
-'''
+
 while True:
     try:
         # Print the values to the serial port
@@ -60,6 +55,15 @@ while True:
                 temperature_f, temperature_c, humidity
             )
         )
+        
+        # Mutation
+        valueVarSensor1 = temperature_c
+        query = 'mutation{updateComponent(name:' + f'"{nameVarSensor1}", value: "{valueVarSensor1}")' + '{component{id name value unit } }}'
+        resultTemperature = make_query(query, url, headers)
+        
+        dht11Temperature = resultTemperature['data']['updateComponent']['component']
+        print(dht11Temperature)
+        print()
 
     except RuntimeError as error:
         # Errors happen fairly often, DHT's are hard to read, just keep going
@@ -69,6 +73,6 @@ while True:
     except Exception as error:
         dhtDevice.exit()
         raise error
-
-    time.sleep(2.0)
-'''
+        
+    # Try to make a post every 5 seconds
+    time.sleep(5.0)
