@@ -29,9 +29,21 @@ valueVarSensor3 = 0                     #The value readed by the sensor3, 0 meas
 headers = {"Authorization": "JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InJhc3BiZXJyeUFkbWluXzEiLCJleHAiOjE2MzY2MDcwNTksIm9yaWdJYXQiOjE2MzY2MDY3NTl9.kMkxKtWiBBKUEpBjoSG8bXS9q_URxR8GjsQCEY8_UV4"}
 url = 'http://34.125.7.41:8090/graphql/'
 
+### Main code ###
+
 while True:
     if GPIO.input(LIGHT_PIN):
-      print ('NO HAY LUZ')
+      valueVarSensor3 = 0
     else:
-      print ('LUZ') 
-    time.sleep(1)
+      valueVarSensor3 = 1
+      
+    # Mutation
+    query = 'mutation{updateComponent(name:' + f'"{nameVarSensor3}", value: "{valueVarSensor3}")' + '{component{id name value unit } }}'
+    resultLdr = make_query(query, url, headers)
+    
+    #ldrData = resultLdr['data']['updateComponent']['component']
+    #print(ldrData)
+    #print()
+        
+    # Try to make a post every 5 seconds
+    time.sleep(5.0)
