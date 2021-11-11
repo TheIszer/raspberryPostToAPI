@@ -1,24 +1,11 @@
-#DHT11 Sensor
-import time
-import board
-import adafruit_dht
-# Graphql
-import requests
+'''
+    Authors: Kaleb Antonio, Fernando Lopez, Alejandra Oliva, Asiel Trejo
+    Emails: A01732213, A07144620,  A01731592, A01731489   @tec.mx
+    Description:  Code written in python that reads the humidity and temperature 
+                  in a DHT11 sensor and publishes it in an API. Use the Adafruit 
+                  library to get the measurements and graphql for the API. 
+'''
 
-# Initial the dht device, with data pin connected to:
-dhtDevice = adafruit_dht.DHT11(board.D17)
-
-# Function to make a post to graphql 
-def make_query(query, url, headers):
-    """
-    Make query response
-    """
-    request = requests.post(url, json={'query': query}, headers=headers)
-    if request.status_code == 200:
-        return request.json()
-    else:
-        raise Exception("Query failed to run by returning code of {}. {}".format(request.status_code, query))
-      
 # Body structure for a post request
 # Temperature mutation
 '''
@@ -47,6 +34,28 @@ mutation{
 }
 '''
 
+#DHT11 Sensor
+import time
+import board
+import adafruit_dht
+# Graphql
+import requests
+
+# Initial the dht device, with data pin connected to:
+dhtDevice = adafruit_dht.DHT11(board.D17)
+
+# Function to make a post to graphql 
+def make_query(query, url, headers):
+    """
+    Make query response
+    """
+    request = requests.post(url, json={'query': query}, headers=headers)
+    if request.status_code == 200:
+        return request.json()
+    else:
+        raise Exception("Query failed to run by returning code of {}. {}".format(request.status_code, query))
+      
+
 #Variables
 nameVarSensor1 = "DHT11-temperature"
 valueVarSensor1 = 0                     #The value readed by the sensor1
@@ -66,12 +75,12 @@ while True:
         temperature_c = dhtDevice.temperature
         temperature_f = temperature_c * (9 / 5) + 32
         humidity = dhtDevice.humidity
-        #r = requests.post('')
-        print(
+        
+        '''print(
             "Temp: {:.1f} F / {:.1f} C    Humidity: {}% ".format(
                 temperature_f, temperature_c, humidity
             )
-        )
+        )'''
         
         # Mutation
         valueVarSensor1 = temperature_c
@@ -84,9 +93,9 @@ while True:
         
         dht11Temperature = resultTemperature['data']['updateComponent']['component']
         dht11Humidity = resultHumidity['data']['updateComponent']['component']
-        print(dht11Temperature)
+        '''print(dht11Temperature)
         print(dht11Humidity)
-        print()
+        print()'''
 
     except RuntimeError as error:
         # Errors happen fairly often, DHT's are hard to read, just keep going
