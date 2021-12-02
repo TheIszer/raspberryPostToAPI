@@ -34,6 +34,28 @@ mutation{
 }
 '''
 
+# Mutation Logs
+# Temperature
+'''
+mutation {
+  createLog(name:"DHT11-temperature", value:"0") {
+    id
+    name
+    value
+  }
+}
+'''
+# Humidity
+'''
+mutation {
+  createLog(name:"DHT11-humidity", value:"0") {
+    id
+    name
+    value
+  }
+}
+'''
+
 #DHT11 Sensor
 import time
 import board
@@ -86,10 +108,17 @@ while True:
         valueVarSensor1 = temperature_c
         query = 'mutation{updateComponent(name:' + f'"{nameVarSensor1}", value: "{valueVarSensor1}")' + '{component{id name value unit } }}'
         resultTemperature = make_query(query, url, headers)
+        # Logs
+        query = 'mutation{createLog(name:' + f'"{nameVarSensor1}", value:"{valueVarSensor1}")' + '{id name value}}'
+        x=make_query(query, url, headers)
+        
         
         valueVarSensor2 = humidity
         query = 'mutation{updateComponent(name:' + f'"{nameVarSensor2}", value: "{valueVarSensor2}")' + '{component{id name value unit } }}'
         resultHumidity = make_query(query, url, headers)
+        # Logs
+        query = 'mutation{createLog(name:' + f'"{nameVarSensor2}", value:"{valueVarSensor2}")' + '{id name value}}'
+        x=make_query(query, url, headers)
         
         dht11Temperature = resultTemperature['data']['updateComponent']['component']
         dht11Humidity = resultHumidity['data']['updateComponent']['component']

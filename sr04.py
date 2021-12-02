@@ -82,6 +82,9 @@ while True:
 		valueVarSensor4 = distance
 		query = 'mutation{updateComponent(name:' + f'"{nameVarSensor4}", value: "{valueVarSensor4}")' + '{component{id name value unit } }}'
 		resultDistance = make_query(query, url, headers)
+		# Logs
+		query = 'mutation{createLog(name:' + f'"{nameVarSensor4}", value:"{valueVarSensor4}")' + '{id name value}}'
+		x=make_query(query, url, headers)
 		
 		'''distanceData = resultDistance['data']['updateComponent']['component']
 		print(distanceData)
