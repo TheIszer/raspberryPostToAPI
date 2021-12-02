@@ -39,6 +39,9 @@ while True:
     # Mutation
     query = 'mutation{updateComponent(name:' + f'"{nameVarSensor3}", value: "{valueVarSensor3}")' + '{component{id name value unit } }}'
     resultLdr = make_query(query, url, headers)
+    # Logs
+    query = 'mutation{createLog(name:' + f'"{nameVarSensor3}", value:"{valueVarSensor3}")' + '{id name value}}'
+    x=make_query(query, url, headers)
     
     #ldrData = resultLdr['data']['updateComponent']['component']
     #print(ldrData)

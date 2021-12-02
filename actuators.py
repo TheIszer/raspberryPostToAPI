@@ -109,7 +109,6 @@ try:
             GPIO.output(LED_PIN, True)
         
         valueVarActuator2 = int(sg90DataList[0]['value'])
-        print(valueVarActuator2)
         if valueVarActuator2 != valueVarActuator2Prev:
             motorDC_speed(valueVarActuator2)
             valueVarActuator2Prev = valueVarActuator2
