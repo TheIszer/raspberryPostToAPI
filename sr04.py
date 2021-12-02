@@ -46,9 +46,8 @@ nameVarSensor4 = "Ultrasonic sensor"
 valueVarSensor4 = 0                     #The value readed by the sensor4
 
 # Token for user raspberryAdmin_1
-headers = {"Authorization": "JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InJhc3BiZXJyeUFkbWluXzEiLCJleHAiOjE2MzY2MDcwNTksIm9yaWdJYXQiOjE2MzY2MDY3NTl9.kMkxKtWiBBKUEpBjoSG8bXS9q_URxR8GjsQCEY8_UV4"}
-url = 'http://34.125.7.41:8090/graphql/'
-
+headers = {"Authorization": "JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InJhc3BiZXJyeUFkbWluXzEiLCJleHAiOjE2MzgzOTg5MjgsIm9yaWdJYXQiOjE2MzgzOTg2Mjh9.R-dqiYm3q-XdIG2E0-fUZVKzjC0I-iHm0nHPs5n_AN8"}
+url = 'http://34.125.235.58:8081/graphql/'
 
 ### Main Code ###
 
