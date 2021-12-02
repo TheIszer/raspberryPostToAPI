@@ -27,6 +27,8 @@ import RPi.GPIO as GPIO
 import time
 # Graphql
 import requests
+# Json
+import json
 
 # Function to make a post to graphql 
 def make_query(query, url, headers):
@@ -58,14 +60,19 @@ url = 'http://34.125.235.58:8081/graphql/'
 while True:
     # Query
     query = 'query{components{id name cType value unit owner{id}}}'
-    queryResult = make_query(query, url, headers)
-    print(queryResult)
+    queryResult = make_query(query, url, headers)   
+    queryComponentsList = queryResult['data']['components']
     
-    #ldrData = resultLdr['data']['updateComponent']['component']
-    #print(ldrData)
-    #print()
-
-    GPIO.output(LED_PIN, True)
-    time.sleep(5.0)
-    GPIO.output(LED_PIN, False)
+    # Filter python objects with list comprehensions, for actuator1
+    ledDataList = [x
+       for x in queryComponentsList
+       if x['name'] == nameVarActuator1
+    ]
+    
+    if ledDataList[0]['value'] == '0':
+        GPIO.output(LED_PIN, False)
+    elif ledDataList[0]['value'] == '1':
+        GPIO.output(LED_PIN, True)
+    
+    # Try to make a query every 5 seconds
     time.sleep(5.0)
